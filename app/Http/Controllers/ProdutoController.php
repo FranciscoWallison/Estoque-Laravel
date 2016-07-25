@@ -30,6 +30,24 @@ class ProdutoController extends Controller {
         return view('produto.formulario');
     }
 
+    // deve adicionar os produtos no banco
+    public function adiciona(){
+        // pegar dados do formulario
+        $nome = Request::input('nome');
+        $valor = Request::input('valor');
+        $descricao = Request::input('descricao');
+        $quantidade = Request::input('quantidade');
+
+        // return implode( ', ', array($nome, 
+        // $descricao, $valor, $quantidade));
+
+        // salvar no banco de dados
+        DB::insert('insert into produtos values (null, ?, ?, ?, ?)', array($nome, $valor, $descricao, $quantidade));
+
+        // retornar alguma view 
+        return view('produto.adicionado')->with('nome', $nome);
+    }
+
 }
 
 /*    
