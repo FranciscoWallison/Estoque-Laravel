@@ -43,9 +43,24 @@ class ProdutoController extends Controller {
 
         // salvar no banco de dados
         DB::insert('insert into produtos values (null, ?, ?, ?, ?)', array($nome, $valor, $descricao, $quantidade));
+        
 
-        // retornar alguma view 
-        return view('produto.adicionado')->with('nome', $nome);
+
+        return redirect()->action('ProdutoController@lista')->withInput(Request::only('nome'));
+        // // listar os produtos
+        // $produtos = DB::select('select * from produtos');
+        // // retornar alguma view 
+        // return view('produto.listagem')->with('nome', $nome);
+    }
+
+    public function listaJson(){
+        $produtos = DB::select('select * from produtos');
+        return response()->json($produtos);
+        // $produtos = DB::select('select * from produtos');
+        // return $produtos;
+
+        //Acessar um método com esse retorno resultaria no download do arquivo presente no caminho especificado
+        return response()->download($caminhoParaUmArquivo);
     }
 
 }
