@@ -23,6 +23,8 @@ Route::post('/produtos/adiciona', 'ProdutoController@adiciona');
 
 Route::get('/produtos/remove/{id}', 'ProdutoController@remove');
 
+//Route::post('/produtos/editar/{id}', 'ProdutoController@editar');
+
 Route::get('/produtos/json', 'ProdutoController@listaJson');
 /*
 Route::get('/', function()

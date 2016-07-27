@@ -15,27 +15,34 @@
       <td> {{ $p->descricao   }} </td>
       <td> {{ $p->quantidade  }} </td>
       <td>
-        <a href="/produtos/mostra/{{$p->id}}">
+        <a href="{{action('ProdutoController@mostra', $p->id)}}">
           <span class="glyphicon glyphicon-search"></span>
         </a>
       </td>
-      
+
     <td> 
       <a href="{{action('ProdutoController@remove', $p->id)}}"> 
         <span class="glyphicon glyphicon-trash"></span>
       </a>
-      </td>
+    </td>
+
+
     </tr>
     @endforeach
   </table>
 
   @endif
 
+  
+@foreach ($produtos as $p)
+  @if($p->quantidade<=1)
   <h4>
     <span class="label label-danger pull-right">
       Um ou menos itens no estoque
     </span>
  </h4>
+  @endif
+@endforeach
 
 @if(old('nome'))
   <div class="alert alert-success">
