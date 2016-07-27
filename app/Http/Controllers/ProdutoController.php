@@ -1,10 +1,14 @@
 <?php namespace estoque\Http\Controllers;
 use Illuminate\Support\Facades\DB;
+use estoque\Produto;
 use Request;
 class ProdutoController extends Controller {
 
     public function lista(){
-        $produtos = DB::select('select * from produtos');
+
+        $produtos = Produto::all();
+    
+        // $produtos = DB::select('select * from produtos');
 
         // Renderizar o HTML da resouces/view
         //return view('listagem')->withProdutos($produtos);
@@ -17,13 +21,14 @@ class ProdutoController extends Controller {
 
     public function mostra($id){
  		//$id = Request::route('id'); // precisamos pegar o id de alguma forma
-		$resposta = DB::select('select * from produtos where id = ?', [$id]);
+		// $resposta = DB::select('select * from produtos where id = ?', [$id]);
+        $produto = Produto::find($id);
 
-		if(empty($resposta)){
+		if(empty($produto)){
 			return 'Esse produto não existe';
 		}
 		// Renderizar o HTML da resouces/view
-    	return view('produto.detalhes')->with('p',$resposta[0]);
+    	return view('produto.detalhes')->with('p',$produto);
     }
 
     public function novo(){
@@ -33,28 +38,38 @@ class ProdutoController extends Controller {
     // deve adicionar os produtos no banco
     public function adiciona(){
         // pegar dados do formulario
-        $nome = Request::input('nome');
-        $valor = Request::input('valor');
-        $descricao = Request::input('descricao');
-        $quantidade = Request::input('quantidade');
+        Produto::create(Request::all());
+
+        // $params = Request::all();
+        // $produto = new Produto($params);
+        // $produto->$nome = Request::input('nome');
+        // $produto->$valor = Request::input('valor');
+        // $produto->$descricao = Request::input('descricao');
+        // $produto->$quantidade = Request::input('quantidade');
 
         // return implode( ', ', array($nome, 
         // $descricao, $valor, $quantidade));
 
         // salvar no banco de dados
-        DB::insert('insert into produtos values (null, ?, ?, ?, ?)', array($nome, $valor, $descricao, $quantidade));
-        
-
+        //DB::insert('insert into produtos values (null, ?, ?, ?, ?)', array($nome, $valor, $descricao, $quantidade));
+        //$produto->save();
 
         return redirect()->action('ProdutoController@lista')->withInput(Request::only('nome'));
-        // // listar os produtos
+        //return redirect()->action('ProdutoController@index')->withInput(Request::only('nome'));
+        // listar os produtos
         // $produtos = DB::select('select * from produtos');
-        // // retornar alguma view 
+        // retornar alguma view 
         // return view('produto.listagem')->with('nome', $nome);
     }
+    public function remove($id){
+    // ...
+        $produto = Produto::find($id);
+        $produto->delete();
+        return redirect()->action('ProdutoController@lista');
+}
 
     public function listaJson(){
-        $produtos = DB::select('select * from produtos');
+        $produtos = Produto::all();
         return response()->json($produtos);
         // $produtos = DB::select('select * from produtos');
         // return $produtos;
