@@ -2,6 +2,9 @@
 use Illuminate\Support\Facades\DB;
 use estoque\Produto;
 use Request;
+use Validator; 
+use estoque\Http\Requests\ProdutoRequest;
+
 class ProdutoController extends Controller {
 
    public function lista(){
@@ -23,9 +26,9 @@ class ProdutoController extends Controller {
         return view('produto.formulario');
     }
 
-    public function adiciona(){
+    public function adiciona(ProdutoRequest $request){
 
-        Produto::create(Request::all());
+        Produto::create($request->all());
 
         return redirect()
             ->action('ProdutoController@lista')
