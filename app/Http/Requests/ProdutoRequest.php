@@ -19,7 +19,7 @@ class ProdutoRequest extends Request
             'descricao'     =>  'required|max:255',
             'valor'         =>  'required|numeric',
             'quantidade'    =>  'required|numeric',
-            'tamanho'       =>  'required|maz:100'
+            'tamanho'       =>  'required|max:100'
         ];
     }
 

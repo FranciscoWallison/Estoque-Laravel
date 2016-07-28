@@ -36,12 +36,15 @@
 
   
 @foreach ($produtos as $p)
-  @if($p->quantidade<=1)
-  <h4>
-    <span class="label label-danger pull-right">
-      Um ou menos itens no estoque
-    </span>
- </h4>
+  @if($p->quantidade<=1 )
+    
+      <h4>
+        <span class="label label-danger pull-right">
+          Um ou menos itens no estoque
+
+        </span>
+      </h4>
+   @break
   @endif
 @endforeach
 
